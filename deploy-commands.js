@@ -17,13 +17,9 @@ for (const folder of commandFolders) {
     .filter(file => file.endsWith(".js"));
 
   for (const file of commandFiles) {
-    const commandPath = `./commands/${folder}/${file}`;
-    const command = require(commandPath);
-
-    if (!command || !command.data) {
-      console.log(`❌ BROKEN COMMAND FILE: ${commandPath}`);
-      continue;
-    }
+    const command = require(
+      `./commands/${folder}/${file}`
+    );
 
     commands.push(command.data.toJSON());
   }
