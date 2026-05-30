@@ -14,11 +14,10 @@ module.exports = {
 
   async execute(interaction) {
     const user = interaction.options.getUser("user");
-
     const image = await getAction("pat");
 
     if (!image) {
-      return interaction.reply("❌ Could not fetch pat image.");
+      return interaction.editReply("❌ Could not fetch pat image.");
     }
 
     const embed = new EmbedBuilder()
@@ -26,6 +25,6 @@ module.exports = {
       .setImage(image)
       .setColor("Random");
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   }
 };
