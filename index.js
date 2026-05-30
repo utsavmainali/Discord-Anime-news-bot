@@ -3,6 +3,8 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const { setNewsChannel } = require("./cron/newsCron");
+const mongoose = require("mongoose");
+const UserXP = require("./models/UserXP");
 
 const {
   Client,
@@ -17,8 +19,41 @@ const client = new Client({
     GatewayIntentBits.MessageContent
   ]
 });
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB error:", err));
 
-client.commands = new Collection();
+client.on("messageCreate", async message => {
+  if (message.author.bot) return;
+
+  let user = await UserXP.findOne({
+    userId: message.author.id
+  });
+
+  if (!user) {
+    user = new UserXP({
+      userId: message.author.id
+    });
+  }
+
+  // Give XP
+  user.xp += 10;
+
+  const nextLevel = user.level * 100;
+
+  if (user.xp >= nextLevel) {
+    user.level++;
+    user.xp = 0;
+
+    message.channel.send(
+      `🎉 ${message.author} leveled up to **Level ${user.level}**!`
+    );
+  }
+
+  await user.save();
+});
+
+  client.commands = new Collection();
 
 const commandFolders = fs.readdirSync("./commands");
 
