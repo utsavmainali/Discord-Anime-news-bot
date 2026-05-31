@@ -10,7 +10,7 @@ module.exports = {
     const news = await fetchAnimeNews();
 
     if (!news.length) {
-      return interaction.reply("❌ No news found.");
+      return interaction.editReply("❌ No news found.");
     }
 
     const embed = new EmbedBuilder()
@@ -25,6 +25,6 @@ module.exports = {
           .join("\n")
       );
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   }
 };

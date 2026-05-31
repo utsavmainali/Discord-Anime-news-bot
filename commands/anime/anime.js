@@ -23,7 +23,7 @@ module.exports = {
       const anime = response.data.data[0];
 
       if (!anime) {
-        return interaction.reply("❌ Anime not found.");
+        return interaction.editReply("❌ Anime not found.");
       }
 
       const embed = new EmbedBuilder()
@@ -55,11 +55,11 @@ module.exports = {
         .setFooter({ text: "Data from MyAnimeList (via Jikan API)" })
         .setColor("Random");
 
-      await interaction.reply({ embeds: [embed] });
+      await interaction.editReply({ embeds: [embed] });
 
     } catch (error) {
       console.error(error);
-      interaction.reply("❌ Error fetching anime data.");
+      interaction.editReply("❌ Error fetching anime data.");
     }
   }
 };

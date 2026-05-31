@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder
-} = require("discord.js");
-
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 
 module.exports = {
@@ -35,15 +31,11 @@ module.exports = {
           }
         );
 
-      await interaction.reply({
-        embeds: [embed]
-      });
+      await interaction.editReply({ embeds: [embed] });
+
     } catch (error) {
       console.error(error);
-
-      interaction.reply(
-        "Failed to fetch trending anime."
-      );
+      interaction.editReply("Failed to fetch trending anime.");
     }
   }
 };

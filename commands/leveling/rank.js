@@ -7,12 +7,10 @@ module.exports = {
     .setDescription("Check your XP and level"),
 
   async execute(interaction) {
-    const user = await UserXP.findOne({
-      userId: interaction.user.id
-    });
+    const user = await UserXP.findOne({ userId: interaction.user.id });
 
     if (!user) {
-      return interaction.reply("You have no XP yet. Start chatting!");
+      return interaction.editReply("You have no XP yet. Start chatting!");
     }
 
     const embed = new EmbedBuilder()
@@ -23,6 +21,6 @@ module.exports = {
       )
       .setColor("Random");
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   }
 };
