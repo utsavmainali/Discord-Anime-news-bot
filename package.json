@@ -10,12 +10,23 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@napi-rs/canvas": "^1.0.0",
     "axios": "^1.16.1",
+    "canvas": "^3.2.3",
+    "cors": "^2.8.6",
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mongoose": "^9.6.3",
     "node-cron": "^4.2.1",
     "openai": "^6.39.0",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4",
     "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.2",
+    "vite": "^8.0.16"
   }
 }

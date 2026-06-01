@@ -1,26 +1,39 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const {
+  SlashCommandBuilder
+} = require("discord.js");
+
 const UserXP = require("../../models/UserXP");
+const { generateRankCard } = require("../../utils/rankCard");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("rank")
-    .setDescription("Check your XP and level"),
+    .setDescription("View your rank card"),
 
   async execute(interaction) {
-    const user = await UserXP.findOne({ userId: interaction.user.id });
+    const userData = await UserXP.findOne({
+      userId: interaction.user.id
+    });
 
-    if (!user) {
-      return interaction.editReply("You have no XP yet. Start chatting!");
+    if (!userData) {
+      return interaction.editReply({
+        content: "❌ No XP found yet!"
+      });
     }
 
-    const embed = new EmbedBuilder()
-      .setTitle(`${interaction.user.username}'s Rank`)
-      .addFields(
-        { name: "Level", value: `${user.level}`, inline: true },
-        { name: "XP", value: `${user.xp}`, inline: true }
-      )
-      .setColor("Random");
+    const image = await generateRankCard(
+      interaction.user,
+      userData.level,
+      userData.xp
+    );
 
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.editReply({
+      files: [
+        {
+          attachment: image,
+          name: "rank.png"
+        }
+      ]
+    });
   }
 };
